@@ -14,6 +14,12 @@ spec:
           - cluster: dev-cluster
             url: https://86f455be-be3d-432e-9b03-c363b2fa6829.ap-south-2-gw.linodelke.net:443
             env: development
+          - cluster: dev-cluster
+            url: https://86f455be-be3d-432e-9b03-c363b2fa6829.ap-south-2-gw.linodelke.net:443
+            env: sit
+          - cluster: dev-cluster
+            url: https://86f455be-be3d-432e-9b03-c363b2fa6829.ap-south-2-gw.linodelke.net:443
+            env: uat
   template:
     metadata:
       name: "{{cluster}}-apps"
@@ -27,7 +33,7 @@ spec:
         path: apps/{{cluster}}
       destination:
         server: "{{url}}"
-        namespace: default
+        namespace: "{{env}}"
       syncPolicy:
         automated:
           prune: true
