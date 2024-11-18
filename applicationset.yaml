@@ -22,7 +22,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/argoproj/argocd-example-apps.git # Replace with your repo
+        repoURL: https://github.com/zdk/argocd-apps.git
         targetRevision: HEAD
         path: apps/{{cluster}}
       destination:
