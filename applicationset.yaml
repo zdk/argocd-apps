@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-apps
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          # Read from the cluster-config ConfigMap
+          - cluster: in-cluster
+            url: https://kubernetes.default.svc
+            env: production
+          - cluster: dev-cluster
+            url: https://86f455be-be3d-432e-9b03-c363b2fa6829.ap-south-2-gw.linodelke.net:443
+            env: development
+  template:
+    metadata:
+      name: "{{cluster}}-apps"
+      labels:
+        environment: "{{env}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/argoproj/argocd-example-apps.git # Replace with your repo
+        targetRevision: HEAD
+        path: apps/{{cluster}}
+      destination:
+        server: "{{url}}"
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

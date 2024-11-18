@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-config
+  namespace: argocd
+data:
+  clusters: |
+    - name: in-cluster
+      server: https://kubernetes.default.svc
+      labels:
+        environment: production
+    - name: dev-cluster
+      server: https://86f455be-be3d-432e-9b03-c363b2fa6829.ap-south-2-gw.linodelke.net:443
+      labels:
+        environment: development
